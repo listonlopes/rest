@@ -1,3 +1,5 @@
+'use strict';
+
 const http = require('http');
 const {  getProducts, getProduct } = require('./module/getProduct.js');
 const createProduct = require('./module/createProduct');
@@ -32,7 +34,8 @@ const server = http.createServer((req,res) => {
    	 		res.writeHead(404, { 'Content-Type': 'application/json' })
         	res.end(JSON.stringify({ message: 'Route Not Found' }))
    	 	}
-    }catch(err){
+    }
+    catch(err) {
        console.log(err);
     }
 });
@@ -40,3 +43,4 @@ const server = http.createServer((req,res) => {
 server.listen(port, hostname, () => {
 	console.log(`Server listening at: http://${hostname}:${port}`);
 });
+
