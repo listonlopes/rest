@@ -5,7 +5,7 @@ const { product, createProduct, getProduct, updateProduct, deleteProduct } = req
 const port = 3000;
 const hostname = 'localhost';
 
-const server = http.createServer(async(req,res) => {
+const server = http.createServer((req,res) => {
     try {
     	if(req.url === '/Product' && req.method === 'POST') {
         	createProduct(req, res);	
@@ -16,15 +16,15 @@ const server = http.createServer(async(req,res) => {
         	res.writeHead(201, { 'Content-Type': 'application/json' });
         	return res.end(JSON.stringify(product));	
    	 	}
-        else if(req.url.match(/\/Product\/\w+/) && req.method === 'GET') {
+        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'GET') {
             const id = req.url.split('/')[2];
             getProduct(req, res, id);
         }
-        else if(req.url.match(/\/Product\/\w+/) && req.method === 'PUT') {
+        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'PUT') {
             const id = req.url.split('/')[2];
             updateProduct(req, res, id);
         }
-        else if(req.url.match(/\/Product\/\w+/) && req.method === 'DELETE') {
+        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'DELETE') {
             const id = req.url.split('/')[2];
             deleteProduct(req, res, id);
         }

@@ -1,7 +1,8 @@
 var product = {
     id1: {
         name: 'book',
-        price: 2000},
+        price: 2000
+    },
     id2: {
         name: 'pen',
         price: 20
@@ -30,44 +31,30 @@ async function createProduct(req, res) {
     try {
         console.log('POST',req.url);
         const body = await getPostData(req);
-        const { id, name, price } = JSON.parse(body);
-        const newProduct = {
-            id,
-            name,
-            price
-        }
-        console.log(newProduct);
-        if(!product['id'+newProduct.id]){
-            if (!newProduct.id || !newProduct.name || !newProduct.price) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                return res.end(JSON.stringify({ error: "product is not valid" }));
-            }
-            else if (typeof(newProduct.id) !== 'number' || typeof(newProduct.name) !== 'string' || typeof(newProduct.price) !== 'number') {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                return res.end(JSON.stringify({ error: "Product is not defined properly" }));
-            }
-            else{
-                res.writeHead(201, { 'Content-Type': 'application/json' });
-                let newProductobj = {
-                    ['id'+newProduct.id]: {
-                        name: newProduct.name,
-                        price: newProduct.price}
-                };       
-                Object.assign(product,newProductobj);
-                console.log(`Creating Product:`,newProductobj);
-                return res.end(JSON.stringify({ sucess: "Product is sucessfully added" }));  
-            }  
-        }
-        else {
+        const { id, name, price } = JSON.parse(body);//check !id !name !price
+        if(product['id'+id]){
             res.writeHead(400, { 'Content-Type': 'application/json' });
-            return res.end(JSON.stringify({ error: "product id is already assigned." }));
+            return res.end(JSON.stringify({ error: "product already exists" }));
         }
-
+        if(!id || !name  || !price){
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: "product is not valid" }));
+        }
+        if(typeof(id) !== 'number' || typeof(name) !== 'string' || typeof(price) !== 'number'){
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: "Product is not defined properly" }));
+        }  
+        product['id'+id] = {
+                name ,
+                price
+        }; 
+        console.log(`Creating Product ${'id'+id}:`,product['id'+id])  
+        res.writeHead(201, { 'Content-Type': 'application/json' });    
+        return res.end(JSON.stringify({ sucess: "Product is sucessfully added" }));  
     } 
     catch (error) {
         console.log(error.message, 'catch');
         res.writeHead(400, { 'Content-Type': 'application/json' });
-       
         return res.end(JSON.stringify({ error: 'Not valid JSON' }));
     }
 }
@@ -88,51 +75,29 @@ function getProduct(req, res, id) {
 async function updateProduct(req, res, id) {
     try {
         console.log('PUT',req.url);
-        console.log(`Upadating Product ${id}:`,product[id]);
-        const body = await getPostData(req);
-        const { name, price } = JSON.parse(body);
-        const upProduct = {
-            name,
-            price
-        }
-        if(product[id]){
-            if (!upProduct.name && !upProduct.price) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                return res.end(JSON.stringify({ error: "product is not valid" }));
-            }
-            else if (typeof(upProduct.name) !== 'string' && typeof(upProduct.price) !== 'number') {
-                while(typeof(upProduct.name) == 'undefined'){
-                    if(typeof(upProduct.price) !== 'number'){
-                        res.writeHead(400, { 'Content-Type': 'application/json' });
-                        return res.end(JSON.stringify({ error: "Product price  is not defined properly" }));
-                    }
-                }
-                while(typeof(upProduct.price) == 'undefined'){
-                    if(typeof(upProduct.name) !== 'string'){
-                        res.writeHead(400, { 'Content-Type': 'application/json' });
-                        return res.end(JSON.stringify({ error: "Product name  is not defined properly" }));
-                    }
-                }
-
-            }
-            else{
-                res.writeHead(201, { 'Content-Type': 'application/json' }); 
-                while(typeof(upProduct.name) == 'undefined'){
-                    upProduct.name = product[id].name;
-                }
-                while(typeof(upProduct.price) == 'undefined'){
-                    upProduct.price = product[id].price;
-                }      
-                Object.assign(product[id], upProduct);
-                console.log(`Upadated Product ${id}:`,product[id]);
-                return res.end(JSON.stringify({ sucess: "Product is sucessfully updated" }));  
-            }  
-        }
-        else {
+        if(!product[id]){
             res.writeHead(404, { 'Content-Type': 'application/json' });
             return res.end(JSON.stringify({ error: "Product does not exists." }));
         }
-
+        console.log(`Upadating Product ${id}:`,product[id]);
+        const body = await getPostData(req);
+        let { name, price } = JSON.parse(body);
+        if (!name || !price) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: "product is not valid" }));
+        }
+        if (typeof(name) !== 'string' || typeof(price) !== 'number'){ 
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: "Product is not defined properly" }));
+        }
+        product[id] = {
+            name, 
+            price
+        };
+        res.writeHead(201, { 'Content-Type': 'application/json' }); 
+        console.log(`Upadated Product ${id}:`,product[id]);
+        return res.end(JSON.stringify({ sucess: "Product is sucessfully updated" }));         
+        
     } 
     catch (error) {
         console.log(error.message, 'catch');
