@@ -5,9 +5,10 @@ Rest using http core modules
 npm start
 
 ## Endpoints:
-
+```
 GET 	/Products
 POST 	/Product
 GET 	/Product/:id
 PUT 	/Product/:id
 DELETE 	/Product/:id
+```
