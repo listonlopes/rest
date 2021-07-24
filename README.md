@@ -1,13 +1,13 @@
 # Rest 
 Rest using http core modules
 
-##To run: 
+## To run: 
 npm start
 
-##Endpoints:
+## Endpoints:
 
-GET 	/Products
-POST 	/Product
-GET 	/Product/:id
-PUT 	/Product/:id
-DELETE 	/Product/:id
+### GET 	/Products
+### POST 	/Product
+### GET 	/Product/:id
+### PUT 	/Product/:id
+### DELETE 	/Product/:id
