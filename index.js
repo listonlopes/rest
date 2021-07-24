@@ -1,5 +1,8 @@
 const http = require('http');
-const { product, createProduct, getProduct, updateProduct, deleteProduct } = require('./module');
+const {  getProducts, getProduct } = require('./module/getProduct.js');
+const createProduct = require('./module/createProduct');
+const updateProduct = require('./module/updateProduct');
+const deleteProduct = require('./module/deleteProduct');
 
 
 const port = 3000;
@@ -11,20 +14,17 @@ const server = http.createServer((req,res) => {
         	createProduct(req, res);	
    	 	}
    	 	else if(req.url === '/Products' && req.method === 'GET') {
-   	 		console.log('GET',req.url);
-   	 		console.log(`Getting Products:`,product);
-        	res.writeHead(201, { 'Content-Type': 'application/json' });
-        	return res.end(JSON.stringify(product));	
+            getProducts(req, res);	
    	 	}
-        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'GET') {
+        else if(req.url == req.url.match(/\/Product\/id\d+/) && req.method === 'GET') {
             const id = req.url.split('/')[2];
             getProduct(req, res, id);
         }
-        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'PUT') {
+        else if(req.url == req.url.match(/\/Product\/id\d+/) && req.method === 'PUT') {
             const id = req.url.split('/')[2];
             updateProduct(req, res, id);
         }
-        else if(req.url === req.url.match(/\/Product\/[i][d]\d+/)[0] && req.method === 'DELETE') {
+        else if(req.url == req.url.match(/\/Product\/id\d+/) && req.method === 'DELETE') {
             const id = req.url.split('/')[2];
             deleteProduct(req, res, id);
         }
@@ -37,6 +37,6 @@ const server = http.createServer((req,res) => {
     }
 });
 
-server.listen(port, hostname, ()=>{
+server.listen(port, hostname, () => {
 	console.log(`Server listening at: http://${hostname}:${port}`);
 });
