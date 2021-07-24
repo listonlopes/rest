@@ -1,9 +1,10 @@
-# Rest using http core modules
+# Rest 
+Rest using http core modules
 
-#To run: 
+##To run: 
 npm start
 
-#Endpoints:
+##Endpoints:
 
 GET 	/Products
 POST 	/Product
