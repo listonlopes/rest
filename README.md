@@ -6,8 +6,8 @@ npm start
 
 ## Endpoints:
 
-### GET 	/Products
-### POST 	/Product
-### GET 	/Product/:id
-### PUT 	/Product/:id
-### DELETE 	/Product/:id
+GET 	/Products
+POST 	/Product
+GET 	/Product/:id
+PUT 	/Product/:id
+DELETE 	/Product/:id
