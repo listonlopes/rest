@@ -1,4 +1,4 @@
-const { product, getData } = require('../data.js');
+const { product,writeData, getData } = require('../data.js');
 
 module.exports = async(req, res, id) => {
     try {
@@ -26,6 +26,8 @@ module.exports = async(req, res, id) => {
             name, 
             price
         };
+        
+        writeData(product);
 
         res.writeHead(201, { 'Content-Type': 'application/json' }); 
         console.log(`Upadated Product ${id}:`,product[id]);

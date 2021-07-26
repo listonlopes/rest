@@ -1,13 +1,9 @@
-var product = {
-    id1: {
-        name: 'book',
-        price: 2000
-    },
-    id2: {
-        name: 'pen',
-        price: 20
-    }
-};
+const fs = require('fs'); 
+var product = require('./product.json');
+
+function writeData(prod) {
+    fs.writeFileSync('./product.json', JSON.stringify(prod), 'utf8');
+}
 
 function getData(req) {
     return new Promise((resolve, reject) => {
@@ -29,5 +25,6 @@ function getData(req) {
 
 module.exports = {
     product,
+    writeData,
     getData
 }
