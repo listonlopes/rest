@@ -44,5 +44,13 @@ server.listen(port, hostname, () => {
 });
 
 server.listen(9000, hostname, () => {
-    console.log(`Server listening at: http://${hostname}:${port}`);
+    console.log(`Server listening at: http://${hostname}:9000`);
+});
+
+process.on('SIGINT', () => {
+    console.log(' : SIGINT signal received.');
+    console.log('Closing http server.');
+    server.close(() => {
+        console.log('HTTP server closed.');
+    });
 });

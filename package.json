@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index"
   },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/listonlopes/rest.git"
+    },
   "author": "Liston Lopes",
   "license": "ISC"
 }
